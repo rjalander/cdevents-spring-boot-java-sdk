@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cdevents-java-sdk-deployment
+spec:
+  selector:
+    matchLabels:
+      app: cdevents-spring-boot-java-sdk
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cdevents-spring-boot-java-sdk
+    spec:
+      containers:
+      - name: cdevents-spring-boot-java-sdk
+        image: localhost:5000/cdevents/cdevents-spring-boot-java-sdk
+        ports:
+        - containerPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: cdevents-java-sdk-service
+spec:
+  type: ClusterIP
+  selector:
+    app: cdevents-spring-boot-java-sdk
+  ports:
+  - port: 80
+    targetPort: 8080
